@@ -1,0 +1,117 @@
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: white;
+    color: black !important;
+    margin-bottom: 60px;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid;
+    padding: 8px;
+}
+
+#customers th {
+    background-color: rgba;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+#heading {
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+#customers tr:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.styleit {
+    font-weight: 600;
+    background-color: rgba(0, 0, 0, 0.35);
+}
+.history_container{
+    flex:7;
+    background-color: rgba(0,0,0,0.35);
+    box-sizing: border-box;
+    padding:40px 20px 0 20px;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.head{
+    margin-bottom: 30px;
+    font-size: 40px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.history{
+    width:90%;
+    border:2px solid;
+    margin-top: 30px;
+    background-color: white;
+    min-height: 300px;
+    position:relative;
+}
+/* .history::after{
+    content:"";
+    height:100%;
+    width:1px;
+    position: absolute;
+    right:28%;
+    top:0;
+    z-index: 6;
+    background-color: black;
+} */
+.top{
+    display: flex;
+    background-color: rgba(0,0,0,0.35);
+}
+.user{
+    flex:1;
+}
+.total{
+    flex:1;
+    padding:10px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.stock{
+    display: flex;
+}
+.history{
+    overflow: hidden;
+
+}
+.holder,.dateholder{
+    flex:1;
+    padding:10px 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+}
+.holder::after{
+    content:"";
+    height:1000px;
+    width:1px;
+    position: absolute;
+    right:5%;
+    top:-200px;
+    z-index: 6;
+    background-color: black;
+}
+.price{
+    flex:1;
+}
+.stock:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+#last>.holder::after{
+    width:0 !important;
+}
