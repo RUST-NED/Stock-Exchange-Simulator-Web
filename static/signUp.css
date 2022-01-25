@@ -1,0 +1,141 @@
+*{
+    margin:0;
+    padding:0;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    background-color: #0072BB;
+    height:8vh;
+    align-items: center;
+    padding:0 30px 0 30px;
+    color:white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.navbar>.logo{
+    font-size: 40px ;
+}
+.navbar>.signButtons>a{
+    margin-right: 20px;
+    padding:10px 20px;
+    text-decoration:none;
+    background-color: lightblue ;
+    border: 0;
+    color:black;
+    outline: none;
+    cursor: pointer;
+    border:1px solid lightblue;
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 8px;
+}
+.navbar>.signButtons>a:hover{
+    background-color: #0072BB;
+    color:white;
+}
+.body{
+    display: flex;
+    height:92vh;
+}
+.sidebar{
+    display: flex;
+    flex-direction: column;
+    flex:2;
+    align-items: center;
+    box-sizing: border-box;
+    padding-top:40px;
+
+}
+.form{
+    flex:7;
+}
+.active{
+    background-color: #013f66 !important;
+    color:white !important;
+}
+.sidebar > a{
+    padding:10px 20px;
+    background-color: lightblue ;
+    border: 0;
+    text-align: center;
+    width:120px;
+    text-decoration:none;
+    color:black;
+    outline: none;
+    margin-bottom: 20px;;
+    cursor: pointer;
+    border:1px solid lightblue;
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 8px;
+}
+
+.sidebar > a:hover{
+    background-color: white;
+    color:black;
+}
+.active:hover{
+    background-color: #013f66 !important;
+}
+.form{
+    background-color: grey;
+    box-sizing: border-box;
+    padding:40px 20px 0 20px;
+    flex-wrap: wrap;
+    align-content: start;
+    display: flex;
+}
+.namebox,.emailbox,.passbox,.confirmbox,.apibox{
+    width:50%;
+    margin:0 auto;
+    margin-bottom: 30px;;
+}
+.inpstyle{
+    width:80%;
+    border:0;
+    outline: none;
+    height:22px;
+    border-radius: 6px;
+    padding:6px 10px;
+}
+.apibox{
+    width: 100%;
+}
+.apibox .inpstyle{
+    width:90%;
+}
+.testyle{
+    margin-bottom: 5px;
+    color:black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.submit{
+    display:flex;
+    width:100%;
+    justify-content: center;
+}
+.submit button{
+    padding:8px 8px;
+    background-color: lightblue ;
+    border: 0;
+    width: 90px;
+    color:black;
+    outline: none;
+    margin-bottom: 20px;;
+    cursor: pointer;
+    border:1px solid lightblue;
+    font-size: 14px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    border-radius: 8px;
+}
+.submit button:hover{
+    background-color: transparent;
+}
+@media only screen and (max-width:1000px){
+    .sidebar{
+        display: none;
+    }
+    .navbar>.signButtons>a{
+        display: none;
+    }
+}
