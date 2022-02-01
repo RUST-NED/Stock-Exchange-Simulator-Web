@@ -26,4 +26,10 @@ def quote_stock(symbol, api_key):
 def usd(value):
     return f"${value:,.2f}"
 
-print(quote_stock("MSFT", "L82CMPPBCCTOC7FQ"))
+# print(quote_stock("MSFT", "L82CMPPBCCTOC7FQ"))
+
+def signin_user(session, user_name):
+    session["user_name"] = user_name
+
+def signout_user(session):
+    session.clear()
