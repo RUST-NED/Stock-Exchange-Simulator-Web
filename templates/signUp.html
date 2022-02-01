@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp</title>
-    <link rel="stylesheet" href="signUp.css">
+    <link rel="stylesheet"  href="{{ url_for('static', filename='signUp.css') }}">
+    <!-- <link rel="stylesheet" type="text/css"> -->
 
-    
 </head>
 
 <body>
@@ -29,32 +29,26 @@
         <div class="form">
             <div class="namebox">
                 <div class="name">
-                    <p class="testyle">Name</p>
-                    <input type="text" class="inpstyle" placeholder="Enter name">
-                </div>
-            </div>
-            <div class="emailbox">
-                <div class="email">
-                    <p class="testyle">Email</p>
-                    <input type="text" class="inpstyle" placeholder="Enter email">
+                    <p class="testyle">User Name</p>
+                    <input type="text" class="inpstyle" placeholder="Enter unique username" id="username" name="username">
                 </div>
             </div>
             <div class="passbox">
                 <div class="password">
                     <p class="testyle">Password</p>
-                    <input type="text" class="inpstyle" placeholder="Enter password">
+                    <input type="password" class="inpstyle" placeholder="Enter password" name="password" id="password">
                 </div>
             </div>
             <div class="confirmbox">
                 <div class="confirmpass">
                     <p class="testyle">Password</p>
-                    <input type="text" class="inpstyle" placeholder="Enter Confirm password">
+                    <input type="text" class="inpstyle" placeholder="Confirm password" name="confirmpassword" id="confirmpassword">
                 </div>
             </div>
             <div class="apibox">
                 <div class="Api">
                     <p class="testyle">Api</p>
-                    <input type="text" class="inpstyle" placeholder="Enter Api">
+                    <input type="text" class="inpstyle" placeholder="Enter Api" name="api" id="api">
                 </div>
             </div>
             <div class="submit">
