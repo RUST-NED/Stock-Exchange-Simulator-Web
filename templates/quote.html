@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='quote.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -19,7 +30,7 @@
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="/dashboard" >Dashboard</a>
+            <a href="/" >Dashboard</a>
             <a href="" class="active">Quote</a>
             <a href="/buy">Buy</a>
             <a href="/sale">Sale</a>

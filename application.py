@@ -293,7 +293,7 @@ def quote():
     if stock_data is None:
         print("rohan")
         flash("Invalid stock symbol", "error")
-        return render_template("quote.html", title = "Sell",)
+        return render_template("quote.html", title = "Sell")
     
     symbol = stock_data["symbol"]  # to make symbol proper (eg convert from nFlx to NFLX)
     prize = stock_data["price"]
