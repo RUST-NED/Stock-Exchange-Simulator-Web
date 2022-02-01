@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
-    <link rel="stylesheet" href="universal.css">
-    <link rel="stylesheet" href="history.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='history.css') }}">
 </head>
 <body>
     <div class="navbar">
@@ -14,17 +14,17 @@
             Stock Exchange Simulator
         </div>
         <div class="signButtons">
-            <a href="">Logout</a>
+            <a href="/signout">Logout</a>
         </div>
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="dashboard.html" >Dashboard</a>
-            <a href="quote.html">Quote</a>
-            <a href="buy.html">Buy</a>
-            <a href="sale.html">Sale</a>
-            <a href="Leaderboard.html" >Leaderboard</a>
-            <a href="" class="active">History</a>
+            <a href="/">Dashboard</a>
+            <a href="/quote">Quote</a>
+            <a href="/buy">Buy</a>
+            <a href="/sell">Sale</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/" class="active">History</a>
         </div>
         <div class="history_container">
             <div class="head"> 
@@ -37,7 +37,15 @@
                     <th>Price</th>
                     <th>Transacted</th>
                 </tr>
+                {% for history_data in db_result %}
                 <tr>
+                    <td>{{ history_data["stock_symbol"] }}</td>
+                    <td>{{ history_data["num_shares"] }}</td>
+                    <td>{{ history_data["price"] }}</td>
+                    <td>{{ history_data["date_time"].strftime('%Y-%m-%d, %H:%M:%S')}}</td>
+                    <tr>
+                {% endfor %}
+                <!-- <tr>
                     <td>GOOGL</td>
                     <td>2</td>
                     <td>$2850.41</td>
@@ -48,7 +56,7 @@
                     <td>1</td>
                     <td>$161.84</td>
                     <td>2021-12-04  <strong style="margin-left:20px">14:37:54</strong></td>
-                </tr>
+                </tr> -->
 
             </table>
         </div>
