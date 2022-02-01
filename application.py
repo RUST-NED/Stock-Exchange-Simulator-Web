@@ -1,7 +1,7 @@
 import mysql.connector
 from flask import Flask, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import signin_user, signout_user
+from helpers import signin_user, signout_user ,quote_stock
 from os import getenv
 
 from flask_session import Session
@@ -101,6 +101,52 @@ def signout():
     signout_user(session)
     return redirect("/")
 
+@app.route("/buy")
+def buy():
+    # buy shares of stock
+    if request.method == "GET":
+        return render_template("buy.html")
+
+    else:  # method == POST
+        symbol = request.form.get("symbol")
+        shares = request.form.get("shares")
+        if not symbol or not shares:
+            return render_template("buy.html", title = "Buy", error = "The symbol and shares field is empty")
+
+        stock = get_stock_data(symbol) # all data from the sock symbol
+
+        if stock is None:
+            return render_template("buy.html", title = "Buy", error = "Invalid stock symbol")
+
+
+        symbol = stock["symbol"]  #  convert from nFlx to NFLX
+        # check if shares is numeric and positive int
+        try:
+            shares = int(shares)
+            if shares < 1:
+                raise ValueError
+        except ValueError:
+            return render_template("buy.html", title = "Buy", error = "The Shares field is invalid")
+
+        # get cash in user's account
+        db.execute("""SELECT cash FROM Users WHERE username = %s;""", (session.get("user_name"),))
+        cash = db.fetchone()["cash"]
+
+        # if user cant afford transaction
+        if (shares * stock["price"]) > cash:
+            return render_template("buy.html", title = "Buy", error = "You don't have enough cash")
+
+        # deduct transaction amount
+        db.execute("""UPDATE users SET cash = %s WHERE username = %s;""",
+        (cash - (shares * stock["price"]), session.get("user_name")))
+
+        # record transaction
+        db.execute("INSERT INTO transactions (username, symbol, shares, price) VALUES (%s, %s, %s, %s)",
+        session.get("user_name"), symbol, shares, stock["price"])
+        db_connection.commit()
+
+
+        return redirect("/")
 @app.route("/sell", methods = ["GET", "POST"])
 def sell():
     """Sell shares of stock"""
@@ -142,7 +188,6 @@ def sell():
         if current_shares <= 0:
             return render_template("sale.html", title = "Sell", error = f"You don't have any shares of {symbol} ({stock_data['name']})")
 
-        # check if shares is numeric and positive int
         try:
             shares = int(shares)
             if shares < 1:
@@ -169,6 +214,7 @@ def sell():
 
         # flash(f"Sold {shares} share(s) of {stock_data['name']} ({symbol})!")
         return redirect("/")
+
     
 if __name__ == "__main__":
     app.run(debug=True)
