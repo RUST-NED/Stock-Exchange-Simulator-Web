@@ -2,7 +2,7 @@ import requests
 
 # L82CMPPBCCTOC7FQ
 # Alphavantage API key: L82CMPPBCCTOC7FQ
-def quote_stock(symbol, api_key):
+def get_stock_data(symbol, api_key):
     try:
         url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={api_key}"
         response = requests.get(url)
@@ -28,8 +28,10 @@ def usd(value):
 
 # print(quote_stock("MSFT", "L82CMPPBCCTOC7FQ"))
 
-def signin_user(session, user_name):
+def signin_user(session, user_name, api_key):
     session["user_name"] = user_name
+    session["api_key"] = api_key
+
 
 def signout_user(session):
     session.clear()

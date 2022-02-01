@@ -18,7 +18,7 @@
     margin-top: 50px;
     margin-bottom: 20px;
 }
-.sale button{
+.sale input[type="submit"]{
     padding:8px 8px;
     background-color: lightblue ;
     border: 0;
