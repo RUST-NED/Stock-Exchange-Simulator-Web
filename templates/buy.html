@@ -5,10 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy</title>
-    <link rel="stylesheet" href="universal.css">
-    <link rel="stylesheet" href="buy.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='buy.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -19,14 +31,14 @@
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="/dashboard" >Dashboard</a>
+            <a href="/" >Dashboard</a>
             <a href="/quote">Quote</a>
             <a href=""  class="active">Buy</a>
-            <a href="/sale">Sale</a>
+            <a href="/sell">Sale</a>
             <a href="/leaderboard">Leaderboard</a>
             <a href="history">History</a>
         </div>
-        <form class="buy">
+        <form class="buy" action = "/buy" method = POST>
             <input placeholder="Symbol" type="text" name="symbol" id="symbol">
             <input placeholder="Shares" type="text" name="shares" id="shares">
             <button>Buy</button>

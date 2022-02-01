@@ -11,6 +11,22 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <!-- <div class="alert error">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        Toooooo!
+    </div> -->
+
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -29,7 +45,7 @@
             <a href="/history">History</a>
         </div>
         <div class="dashboard_container">
-            
+
             <div class="head">
                 <h1>Portfolio</h1>
             </div>
@@ -41,33 +57,28 @@
                     <th>Price</th>
                     <th>Total</th>
                 </tr>
+                {% for stock_data in stocks_data %}
                 <tr>
-                    <td>GOOGL</td>
-                    <td>Google</td>
-                    <td>2</td>
-                    <td>$161.84</td>
-                    <td>$161.84</td>
+                    <td>{{stock_data["stock_symbol"]}}</td>
+                    <td>{{stock_data["company_name"]}}</td>
+                    <td>{{ stock_data["shares"] }}</td>
+                    <td>{{ stock_data["stock_price"] }}</td>
+                    <td> {{ stock_data["total"] }} </td>
                 </tr>
-                <tr>
-                    <td>AAPL</td>
-                    <td>Apple</td>
-                    <td>1</td>
-                    <td>$161.84</td>
-                    <td>$5700</td>
-                </tr>
+                {% endfor %}
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="styleit">Cash</td>
-                    <td class="styleit"><strong>$4,137</strong></td>
+                    <td class="styleit"><strong>{{ cash }}</strong></td>
                 </tr>
                 <tr>
                     <td></td>
                     <td></td>
                     <td></td>
                     <td class="styleit">Total</td>
-                    <td class="styleit"><strong>$10,000</strong></td>
+                    <td class="styleit"><strong>{{ total }}</strong></td>
                 </tr>
 
             </table>

@@ -6,8 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignIn</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='signin.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -19,7 +32,7 @@
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="signUp.html">Sign Up</a>
+            <a href="/signup">Sign Up</a>
             <a href="" class="active">Sign In</a>
         </div>
         <form class="form" action="/signin" method="POST">

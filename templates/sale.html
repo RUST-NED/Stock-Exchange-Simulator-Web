@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='sale.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ category }}">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        {{ message }}
+    </div>
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -19,18 +31,23 @@
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="/dashboard" >Dashboard</a>
+            <a href="/" >Dashboard</a>
             <a href="/quote">Quote</a>
             <a href="/buy">Buy</a>
             <a href=""  class="active">Sale</a>
             <a href="/leaderboard">Leaderboard</a>
             <a href="/history">History</a>
         </div>
-        <form class="sale" action="/buy" method="post">
+        <form class="sale" action="/sell" method="post">
             {% if error == "You don't have any shares to sell" %}
                 <div id="error">{{ error }}</div>
             {% else %}
-                <input placeholder="Symbol" type="text" name="symbol" id="symbol">
+                <select name="symbol" id="symbol" class="form-select" aria-label="Default select example">
+                    <option selected value="">Symbol</option>
+                    {% for symbol in symbols %}
+                    <option value={{ symbol }}> {{ symbol }} </option>
+                    {% endfor %}
+                  </select>
                 <input placeholder="Shares" type="number" name="shares" id="shares">
                 <input type="submit" value="Sell">
                 <div id="error">{{ error }}</div>
