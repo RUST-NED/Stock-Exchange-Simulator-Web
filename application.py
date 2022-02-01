@@ -1,7 +1,7 @@
 import mysql.connector
 from flask import Flask, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import signin_user, signout_user ,quote_stock
+from helpers import signin_user, signout_user, get_stock_data
 from os import getenv
 
 from flask_session import Session

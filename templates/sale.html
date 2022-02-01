@@ -26,7 +26,7 @@
             <a href="/leaderboard">Leaderboard</a>
             <a href="/history">History</a>
         </div>
-        <form class="sale">
+        <form class="sale" action="/buy" method="post">
             {% if error == "You don't have any shares to sell" %}
                 <div id="error">{{ error }}</div>
             {% else %}
