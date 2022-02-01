@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="universal.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
 </head>
 
 <body>
@@ -16,17 +16,17 @@
             Stock Exchange Simulator
         </div>
         <div class="signButtons">
-            <a href="">Logout</a>
+            <a href="/signout">Logout</a>
         </div>
     </div>
     <div class="body">
         <div class="sidebar">
             <a href="" class="active">Dashboard</a>
-            <a href="quote.html">Quote</a>
-            <a href="buy.html">Buy</a>
-            <a href="sale.html">Sale</a>
-            <a href="Leaderboard.html">Leaderboard</a>
-            <a href="history.html">History</a>
+            <a href="/quote">Quote</a>
+            <a href="buy">Buy</a>
+            <a href="/sell">Sale</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/history">History</a>
         </div>
         <div class="dashboard_container">
             

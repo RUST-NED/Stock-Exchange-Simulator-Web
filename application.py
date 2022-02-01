@@ -91,5 +91,11 @@ def signin():
         signin_user(session = session, user_name = user_row[username]), 
         return redirect("/")
 
+@app.route("/signout")
+def signout():
+    signout_user(session)
+    return redirect("/")
+
+    
 if __name__ == "__main__":
     app.run(debug=True)
