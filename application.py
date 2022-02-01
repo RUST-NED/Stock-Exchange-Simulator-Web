@@ -1,7 +1,7 @@
 import mysql.connector
 from flask import Flask, flash, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import signin_user, signout_user ,quote_stock
+from helpers import signin_user, signout_user ,get_stock_data
 from os import getenv
 
 from flask_session import Session
@@ -51,7 +51,7 @@ def signup():
             return render_template("signup.html", error="Password must be at least 4 characters")
 
         # validate api key
-        if not quote_stock("MSFT", api):
+        if not get_stock_data("MSFT", api):
             # flash("Invalid API key", "danger")
             return render_template("signup.html", error="Invalid API key")
 
@@ -66,7 +66,7 @@ def signup():
         db_connection.commit()
 
         # flash("You are now registered and can log in", "success")
-        signin_user(session, username, api_key)
+        signin_user(session, username, api)
         return redirect("/")
 
       
@@ -93,7 +93,8 @@ def signin():
             # flash
             return render_template("signIn.html", title = "Sign In", error = "Incorrect Password")
 
-        signin_user(session = session, user_name = user_row["username"]), 
+
+        signin_user(session = session, user_name=user_name, api_key= user_row.get("API_KEY"))
         return redirect("/")
 
 @app.route("/signout")
@@ -101,7 +102,7 @@ def signout():
     signout_user(session)
     return redirect("/")
 
-@app.route("/buy")
+@app.route("/buy" ,methods = ["GET", "POST"])
 def buy():
     # buy shares of stock
     if request.method == "GET":
@@ -113,7 +114,9 @@ def buy():
         if not symbol or not shares:
             return render_template("buy.html", title = "Buy", error = "The symbol and shares field is empty")
 
-        stock = get_stock_data(symbol) # all data from the sock symbol
+        db.execute("""SELECT cash,API_KEY FROM Users WHERE username = %s;""", (session.get("user_name"),))
+        db_result = db.fetchone()
+        stock = get_stock_data(symbol,db_result.get("API_KEY")) # all data from the sock symbol
 
         if stock is None:
             return render_template("buy.html", title = "Buy", error = "Invalid stock symbol")
@@ -129,7 +132,6 @@ def buy():
             return render_template("buy.html", title = "Buy", error = "The Shares field is invalid")
 
         # get cash in user's account
-        db.execute("""SELECT cash FROM Users WHERE username = %s;""", (session.get("user_name"),))
         cash = db.fetchone()["cash"]
 
         # if user cant afford transaction

@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buy</title>
-    <link rel="stylesheet" href="universal.css">
-    <link rel="stylesheet" href="buy.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='buy.css') }}">
 </head>
 <body>
     <div class="navbar">
@@ -26,7 +26,7 @@
             <a href="/leaderboard">Leaderboard</a>
             <a href="history">History</a>
         </div>
-        <form class="buy">
+        <form class="buy" action = "/buy" method = POST>
             <input placeholder="Symbol" type="text" name="symbol" id="symbol">
             <input placeholder="Shares" type="text" name="shares" id="shares">
             <button>Buy</button>
