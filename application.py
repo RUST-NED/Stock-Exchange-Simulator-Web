@@ -68,7 +68,7 @@ def signup():
 @app.route("/signin", methods  = ["GET", "POST"])
 def signin():
     if request.method == "GET":
-        return render_template("siginIn.html", title = "Sign In")
+        return render_template("signIn.html", title = "Sign In")
     else:
         user_name = request.form.get("username").strip()
         password = request.form.get("password").strip()
@@ -84,11 +84,11 @@ def signin():
             # flash("Invalid Username", "error")
             return render_template("signIn.html", error = "Invalid Username")
 
-        if not check_password_hash(user_row[password_hash], password):
+        if not check_password_hash(user_row["password_hash"], password):
             # flash
             return render_template("signIn.html", title = "Sign In", error = "Incorrect Password")
 
-        signin_user(session = session, user_name = user_row[username]), 
+        signin_user(session = session, user_name = user_row["username"]), 
         return redirect("/")
 
 if __name__ == "__main__":

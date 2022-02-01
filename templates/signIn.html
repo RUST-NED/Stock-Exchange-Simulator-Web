@@ -14,7 +14,7 @@
         </div>
         <div class="signButtons">
             <a href="">Sign In</a>
-            <a href="signUp.html">Sign Up</a>
+            <a href="/signup">Sign Up</a>
         </div>
     </div>
     <div class="body">
@@ -22,7 +22,7 @@
             <a href="signUp.html">Sign Up</a>
             <a href="" class="active">Sign In</a>
         </div>
-        <div class="form">
+        <form class="form" action="/signin" method="POST">
             <div class="mainform">
                 <div class="emailbox">
                     <div class="email">
@@ -37,10 +37,11 @@
                     </div>
                 </div>
                 <div class="submit">
-                    <button>SignIn</button>
+                    <input type="submit" value="Submit" id="submit">
                 </div>
+                <div id="error">{{ error }}</div>
             </div>
-        </div>
+        </form>
     </div>
     <script src="fetch.js"></script>
 </body>
