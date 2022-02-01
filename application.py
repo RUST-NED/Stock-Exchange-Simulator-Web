@@ -24,7 +24,7 @@ Session(app)
 @app.route("/")
 def index():
     if session.get("user_name"):  # if user logged in
-        return render_template("dashboard.html", user_name)
+        return render_template("dashboard.html", user_name=session["user_name"])
     else:
         return redirect("/signup")
 
@@ -90,12 +90,6 @@ def signin():
 
         signin_user(session = session, user_name = user_row[username]), 
         return redirect("/")
-
-
-@app.route("/signout")
-def signout():
-    signout_user(session)
-    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)
