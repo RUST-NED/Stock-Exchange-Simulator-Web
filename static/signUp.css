@@ -114,7 +114,7 @@
     width:100%;
     justify-content: center;
 }
-.submit button{
+.submit button, input[type=submit]{
     padding:8px 8px;
     background-color: lightblue ;
     border: 0;

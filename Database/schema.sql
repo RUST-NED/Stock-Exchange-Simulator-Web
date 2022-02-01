@@ -20,4 +20,8 @@ CREATE TABLE Transactions (
     FOREIGN KEY (username) REFERENCES Users(username)
 );
 
+--@block
+-- set default value of cash to 10000
+ALTER TABLE Users ALTER COLUMN cash SET DEFAULT 10000;
+
 
