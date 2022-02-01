@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignIn</title>
-    <link rel="stylesheet" href="signIn.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signin.css') }}">
 </head>
 <body>
     <div class="navbar">
@@ -26,14 +26,14 @@
             <div class="mainform">
                 <div class="emailbox">
                     <div class="email">
-                        <p class="testyle">Email</p>
-                        <input type="text" class="inpstyle" placeholder="Enter email">
+                        <p class="testyle">User Name</p>
+                        <input id = "username" name = "username" type="text" class="inpstyle" placeholder="Enter email">
                     </div>
                 </div>
                 <div class="passbox">
                     <div class="password">
                         <p class="testyle">Password</p>
-                        <input type="text" class="inpstyle" placeholder="Enter password">
+                        <input id ="passsword" name = "password" type="text" class="inpstyle" placeholder="Enter password">
                     </div>
                 </div>
                 <div class="submit">

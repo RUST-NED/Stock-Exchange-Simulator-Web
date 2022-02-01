@@ -11,7 +11,7 @@ db_connection = mysql.connector.connect(
     password=getenv("MySQLpassword"),
     database="stockexchangesimulator"
 )
-db = db_connection.cursor(buffered=True)
+db = db_connection.cursor(buffered=True, dictionary = True)
 
 app = Flask(__name__)
 app.secret_key = "35gbbad932565nnssndg"
@@ -61,7 +61,29 @@ def signup():
         # flash("You are now registered and can log in", "success")
         return redirect("/")
 
-        
+      
+@app.route("/signin", methods  = ["GET", "POST"])
+def signin():
+    if request.method == "GET":
+        return render_template("siginIn.html", title = "Sign In")
+    else:
+        user_name = request.form.get("username").strip()
+        password = request.form.get("password").strip()
 
+        #checking if exist 
+        db.execute("""
+        SELECT * FROM Users
+        WHERE username = %s;""",(user_name,)
+        )
 
-        
+        user_row = db.fetchone()
+        if not user_row:
+            # flash("Invalid Username", "error")
+            return render_template("signIn.html", error = "Invalid Username")
+
+        if not check_password_hash(user_row[password_hash], password):
+            # flash
+            return render_template("signIn.html", title = "Sign In", error = "Incorrect Password")
+
+        signin_user(session = session, user_name = user_row[username]), 
+        return redirect("/")
