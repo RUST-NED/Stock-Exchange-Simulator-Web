@@ -160,7 +160,8 @@ def buy():
         stock = get_stock_data(symbol,db_result.get("API_KEY")) # all data from the sock symbol
 
         if stock is None:
-            return render_template("buy.html", title = "Buy", error = "Invalid stock symbol")
+            flash("Invalid stock symbol or API call frequency limit exceeded.", "error")
+            return render_template("buy.html", title = "Buy")
 
 
         symbol = stock["symbol"]  #  convert from nFlx to NFLX
@@ -170,14 +171,16 @@ def buy():
             if shares < 1:
                 raise ValueError
         except ValueError:
-            return render_template("buy.html", title = "Buy", error = "The Shares field is invalid")
+            flash("The shares field is invalid", "error")
+            return render_template("buy.html", title = "Buy")
 
         # get cash in user's account
         cash = float(db_result.get("cash"))
 
         # if user cant afford transaction
         if (shares * stock["price"]) > cash:
-            return render_template("buy.html", title = "Buy", error = "You don't have enough cash")
+            flash("You can't afford this transaction", "error")
+            return render_template("buy.html", title = "Buy")
 
         # deduct transaction amount
         db.execute("""UPDATE users SET cash = %s WHERE username = %s;""",
@@ -188,6 +191,7 @@ def buy():
         (session.get("user_name"), symbol, shares, stock["price"]))
         db_connection.commit()
 
+        flash("Successfully bought {} shares of {} at ${}".format(shares, symbol, stock["price"]), "success")
         return redirect("/")
 
 
@@ -206,6 +210,7 @@ def sell():
 
     if request.method == "GET":
         if not symbols:
+            flash("You don't have any shares to sell", "error")
             return render_template("sale.html", title = "Sell", error = "You don't have any shares to sell")
         else:
             return render_template("sale.html", title = "Sell", symbols = symbols)
@@ -214,13 +219,15 @@ def sell():
         symbol = request.form.get("symbol").strip()
         shares = request.form.get("shares").strip()
         if not symbol or not shares:
-            return render_template("sale.html", title = "Sell", error = "Please fill all the fields", symbols = symbols)
+            flash("Please fill all the fields", "error")
+            return render_template("sale.html", title = "Sell", symbols = symbols)
 
         print(symbol, shares)
         stock_data = get_stock_data(symbol, session.get("api_key"))
         print(stock_data)
         if stock_data is None:
-            return render_template("sale.html", title = "Sell", error = "Invalid stock symbol", symbols = symbols)
+            flash("Invalid stock symbol or API call frequency limit exceeded.", "error")
+            return render_template("sale.html", title = "Sell",symbols = symbols)
         symbol = stock_data["symbol"]  # to make symbol proper (eg convert from nFlx to NFLX)
 
         db.execute("""
@@ -233,16 +240,19 @@ def sell():
         current_shares = db_result["shares"]
 
         if current_shares <= 0:
-            return render_template("sale.html", title = "Sell", error = f"You don't have any shares of {symbol} ({stock_data['name']})", symbols = symbols)
+            flash(f"You don't have any shares of {symbol} ({stock_data['name']})", "error")
+            return render_template("sale.html", title = "Sell", symbols = symbols)
 
         try:
             shares = int(shares)
             if shares < 1:
                 raise ValueError
         except ValueError:
-            return render_template("sale.html", title = "Sell", error = "Numbers of shares must be a positive integer", symbols = symbols)
+            flash("Numbers of shares must be a positive integer", "error")
+            return render_template("sale.html", title = "Sell", symbols = symbols)
 
         if current_shares < shares:  # if not enough shares present
+            flash("You have less than {} shares of {}".format(shares, symbol), "error")
             return render_template("sale.html", title = "Sell", error = f"You have less than {shares} shares of {symbol} ({stock_data['name']})", symbols = symbols)
 
         # get cash in user's account
@@ -264,6 +274,22 @@ def sell():
         # flash(f"Sold {shares} share(s) of {stock_data['name']} ({symbol})!")
         return redirect("/")
 
+@app.route("/leaderboard")
+def leaderboard():
+    """Show all users ranked by amount of cash they have"""
+    db.execute("""SELECT username, cash FROM users ORDER BY cash DESC;""")
+    db_result = db.fetchall()
+    print(db_result)
+    return render_template("leaderboard.html", title = "Leaderboard", db_result = db_result)
+
+@app.route("/history")
+def history():
+    """Show history of transactions"""
+    db.execute("""SELECT stock_symbol, num_shares, price, date_time FROM transactions WHERE username = %s ORDER BY date_time DESC;""",
+    (session.get("user_name"),))
+    db_result = db.fetchall()
+    print(db_result)
+    return render_template("history.html", title = "History", db_result = db_result)
     
 if __name__ == "__main__":
     app.run(debug=True)

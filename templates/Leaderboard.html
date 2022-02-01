@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
-    <link rel="stylesheet" href="universal.css">
-    <link rel="stylesheet" href="leaderboard.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='leaderboard.css') }}">
 </head>
 <body>
     <div class="navbar">
@@ -14,17 +14,18 @@
             Stock Exchange Simulator
         </div>
         <div class="signButtons">
-            <a href="">Logout</a>
+            <a href="/signout">Logout</a>
         </div>
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="dashboard.html" >Dashboard</a>
-            <a href="quote.html">Quote</a>
-            <a href="buy.html">Buy</a>
-            <a href="sale.html">Sale</a>
+            <a href="/">Dashboard</a>
+            <a href="/quote">Quote</a>
+            <a href="/buy">Buy</a>
+            <a href="/sell">Sale</a>
             <a href="" class="active">Leaderboard</a>
-            <a href="history.html">History</a>
+            <a href="/history">History</a>
+            
         </div>
         <div class="leaderboard">
             <div class="head"> 
@@ -32,26 +33,32 @@
             </div>
             <table id="customers">
                 <tr id="headings">
-                    <th>User Name</th>
-                    <th>Total</th>
+                    <th>Username</th>
+                    <th>Total Cash</th>
                 </tr>
+                {% for user_data in db_result %}
                 <tr>
-                    <td>Rohan Ahmed</td>
+                    <td>{{ user_data["username"] }}</td>
+                    <td>{{ user_data["cash"] }}</td>
+                </tr>
+                {% endfor %}
+                <!-- <tr>
+                    <td>RA</td>
                     <td>$301.8</td>
                 </tr>
                 <tr>
-                    <td>Sohaib Ahmed Abbasi</td>
+                    <td>SAA_12/td>
                     <td>$301.7</td>
                 </tr>
                 <tr>
-                    <td>Umar bin Mujeeb</td>
+                    <td>UBM</td>
                     <td>$301.6</td>
                 </tr>
                 <tr>
                     <td>Muhammad Talha</td>
                     <td>$301.5</td>
                 </tr>
-                
+                 -->
     
             </table>
         </div>
