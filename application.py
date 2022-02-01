@@ -264,6 +264,39 @@ def sell():
         # flash(f"Sold {shares} share(s) of {stock_data['name']} ({symbol})!")
         return redirect("/")
 
+
+@app.route("/quote", methods=["GET", "POST"])
+def quote():
+    if request.method == "GET":
+        return render_template("quote.html", title = "Quote")
+
+    symbol = request.form.get("symbol")
+    if not symbol:
+        flash("Please fill all the fields", "error")
+        return render_template("quote.html", title ="Quote" )
+
+    db.execute("""SELECT cash,API_KEY FROM Users WHERE username = %s;""", (session.get("user_name"),))
+    db_result = db.fetchone()
+    stock_data = get_stock_data(symbol,db_result.get("API_KEY")) # all data from the sock symbol
+    print(stock_data)
+
+    if stock_data is None:
+        print("rohan")
+        flash("Invalid stock symbol", "error")
+        return render_template("quote.html", title = "Sell",)
+    
+    symbol = stock_data["symbol"]  # to make symbol proper (eg convert from nFlx to NFLX)
+    prize = stock_data["price"]
+
+    return render_template("quote.html", title = "Sell",  message = f"The price of the {symbol} is {usd(prize)}." )
+
+
+
+
+
+    
+
+
     
 if __name__ == "__main__":
     app.run(debug=True)
