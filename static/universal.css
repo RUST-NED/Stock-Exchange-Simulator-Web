@@ -3,6 +3,10 @@
     padding:0;
 }
 
+
+/* table {
+    border-radius: 20;
+} */
 .navbar{
     display: flex;
     justify-content: space-between;
@@ -36,7 +40,7 @@
 }
 .body{
     display: flex;
-    height:92vh;
+    min-height:92vh;
 }
 .sidebar{
     display: flex;

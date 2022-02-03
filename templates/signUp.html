@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp</title>
-    <link rel="stylesheet"  href="{{ url_for('static', filename='signUp.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signUp.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> jquery -->
     <!-- <link rel="stylesheet" type="text/css"> -->
@@ -24,7 +24,7 @@
     </ul>
     {% endif %}
     {% endwith %}
-    
+
     <div class="navbar">
         <div class="logo">
             Stock Exchange Simulator
@@ -43,7 +43,8 @@
             <div class="namebox">
                 <div class="name">
                     <p class="testyle">User Name</p>
-                    <input type="text" class="inpstyle" placeholder="Enter unique username" id="username" name="username">
+                    <input type="text" class="inpstyle" placeholder="Enter unique username" id="username"
+                        name="username">
                 </div>
             </div>
             <div class="passbox">
@@ -54,8 +55,9 @@
             </div>
             <div class="confirmbox">
                 <div class="confirmpass">
-                    <p class="testyle">Password</p>
-                    <input type="password" class="inpstyle" placeholder="Confirm password" name="confirmpassword" id="confirmpassword">
+                    <p class="testyle">Confirm Password</p>
+                    <input type="password" class="inpstyle" placeholder="Confirm password" name="confirmpassword"
+                        id="confirmpassword">
                 </div>
             </div>
             <div class="apibox">
@@ -68,7 +70,25 @@
                 <input type="submit" value="Submit" id="submit">
             </div>
             <div id="error">{{ error }}</div>
+            <div>
+                <p>Already have an account? <a href="/signin">Sign In</a></p>
+            </div>
+            <div>
+                <br>
+                <h1>API Key tutorial</h1>
+                To use this application, you will need to register for an API key in order to be able to
+                get stocks' data. To do so, follow these steps:<br><br>
+
+                1) Visit iexcloud.io/cloud-login#/register/. <br>
+                2) Select the “Individual” account type, then enter your email address and a password, and click “Create
+                account”.<br>
+                3) Once registered, scroll down to “Get started for free” and click “Select Start” to choose the free plan.<br>
+                4) Once you’ve confirmed your account via a confirmation email, visit https://iexcloud.io/console/tokens.<br>
+                5) Copy the key that appears under the Token column (it should begin with pk_).<br>
+                6) Paste the key into the field above.
+            </div>
         </form>
+
     </div>
 </body>
 

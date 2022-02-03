@@ -1,8 +1,9 @@
 import mysql.connector
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
-from helpers import signin_user, signout_user, get_stock_data, usd
+from helpers import signin_user, signout_user, get_stock_data, usd, get_time_series, login_required
 from os import getenv
+# from requests import jsonify
 
 from flask_session import Session
 
@@ -22,6 +23,7 @@ Session(app)
 
 
 @app.route("/")
+@login_required
 def index():
     if not session.get("user_name"):  # if user logged in
         return redirect("/signup")
@@ -61,10 +63,12 @@ def index():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    if session.get("user_name"):
+        return redirect("/")
     if request.method == "GET":
         return render_template("signup.html", title="Sign Up")
     else:
-        print(request.form)
+        # print(request.form)
         username = request.form.get("username").strip()
         password = request.form.get("password").strip()
         confirmpassword = request.form.get("confirmpassword").strip()
@@ -108,6 +112,8 @@ def signup():
       
 @app.route("/signin", methods  = ["GET", "POST"])
 def signin():
+    if session.get("user_name"):
+        return redirect("/")
     if request.method == "GET":
         return render_template("signIn.html", title = "Sign In")
     else:
@@ -136,12 +142,14 @@ def signin():
         return redirect("/")
 
 @app.route("/signout")
+@login_required
 def signout():
     signout_user(session)
     flash("Successfully signed out", "success")
     return redirect("/")
 
 @app.route("/buy" ,methods = ["GET", "POST"])
+@login_required
 def buy():
     # buy shares of stock
     if request.method == "GET":
@@ -196,6 +204,7 @@ def buy():
 
 
 @app.route("/sell", methods = ["GET", "POST"])
+@login_required
 def sell():
     """Sell shares of stock"""
     # get share count for all stock symbols for which user holds atleast 1 share
@@ -276,6 +285,7 @@ def sell():
 
 
 @app.route("/quote", methods=["GET", "POST"])
+@login_required
 def quote():
     if request.method == "GET":
         return render_template("quote.html", title = "Quote")
@@ -298,16 +308,12 @@ def quote():
     symbol = stock_data["symbol"]  # to make symbol proper (eg convert from nFlx to NFLX)
     prize = stock_data["price"]
 
-    return render_template("quote.html", title = "Sell",  message = f"The price of the {symbol} is {usd(prize)}." )
+    return render_template("quote.html", title = "Sell", symbol = symbol,  message = f"The price of the {symbol} is {usd(prize)}.")
 
-
-
-
-
-    
 
 
 @app.route("/leaderboard")
+@login_required
 def leaderboard():
     """Show all users ranked by amount of cash they have"""
     db.execute("""SELECT username, cash FROM users ORDER BY cash DESC;""")
@@ -316,6 +322,7 @@ def leaderboard():
     return render_template("leaderboard.html", title = "Leaderboard", db_result = db_result)
 
 @app.route("/history")
+@login_required
 def history():
     """Show history of transactions"""
     db.execute("""SELECT stock_symbol, num_shares, price, date_time FROM transactions WHERE username = %s ORDER BY date_time DESC;""",
@@ -323,6 +330,12 @@ def history():
     db_result = db.fetchall()
     print(db_result)
     return render_template("history.html", title = "History", db_result = db_result)
+
+@app.route("/timeseries/<stock>")
+@login_required
+def timeseries():
+    history = get_timeseries(stock, session.get("api_key"))
+    return jsonify(history)
 
 if __name__ == "__main__":
     app.run(debug=True)

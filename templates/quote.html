@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,12 @@
     <title>Quote</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='universal.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='quote.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> <!-- jquery -->
+
+    </script>
 </head>
+
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
@@ -25,24 +31,75 @@
             Stock Exchange Simulator
         </div>
         <div class="signButtons">
-            <a href="">Logout</a>
+            <a href="/logout">Logout</a>
         </div>
     </div>
     <div class="body">
         <div class="sidebar">
-            <a href="/" >Dashboard</a>
+            <a href="/">Dashboard</a>
             <a href="" class="active">Quote</a>
             <a href="/buy">Buy</a>
             <a href="/sale">Sale</a>
             <a href="/leaderboard">Leaderboard</a>
             <a href="/history">History</a>
         </div>
-        <form class="quote" method = "POST" action = /quote>
+        <form class="quote" method="POST" action=/quote>
             <input placeholder="Symbol" type="text" name="symbol" id="symbol">
             <button>Quote</button>
-        <form>
-        <div><p>{{message}}</p></div>
-        
+            <div>
+                <p id="quotemsg">{{message}}</p>
+            </div>
+            <div>
+                <div hidden id="history"> {{history}}</div>
+                <div hidden id="symbol">{{symbol}}</div>
+                <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
+            </div>
     </div>
+    </form>
+
+    <script>
+        // on document ready
+            $(document).ready(function() {
+                let quotemsg = $('#quotemsg').text();
+            if (quotemsg != "") {
+                $.get("/timeseries/" + $('#symbol').text(), function (data) {
+                    let history = JSON.parse(data);
+                    let labels = [];
+                    let values = [];
+                    for (let i = 0; i < history.length; i++) {
+                        labels.push(i);
+                        values.push(history[i]);
+                    }
+                    var ctx = document.getElementById('myChart');
+                    var myChart = new Chart("myChart", {
+                        type: "line",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Price",
+                                data: values,
+                                borderColor: "#3e95cd",
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: $('#symbol').text()
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                // });
+                myChart.update();
+                }
+    </script>
 </body>
+
 </html>

@@ -86,9 +86,9 @@
     display: flex;
 }
 .namebox,.emailbox,.passbox,.confirmbox,.apibox{
-    width:50%;
     margin:0 auto;
-    margin-bottom: 30px;;
+    margin-bottom: 30px;
+    width:100%;
 }
 .inpstyle{
     width:80%;
@@ -102,7 +102,7 @@
     width: 100%;
 }
 .apibox .inpstyle{
-    width:90%;
+    width:80%;
 }
 .testyle{
     margin-bottom: 5px;
